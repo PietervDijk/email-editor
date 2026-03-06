@@ -200,3 +200,74 @@ body {
     height: 100%;
 }
 
+/* ============================================
+   Tab Navigation
+   ============================================ */
+
+.tab-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    background: var(--white);
+    padding: var(--space-sm);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.tab-btn:hover {
+    background: var(--gray-50);
+    color: var(--gray-800);
+}
+
+.tab-btn.active {
+    background: var(--purple);
+    color: var(--white);
+    border-color: var(--purple);
+}
+
+.tab-btn .tab-icon {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-btn .tab-icon img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    filter: grayscale(100%) brightness(0.6);
+    transition: all var(--transition);
+}
+
+.tab-btn.active .tab-icon img {
+    filter: grayscale(0%) brightness(1.2);
+}
+
+.tab-btn:hover .tab-icon img {
+    filter: grayscale(50%) brightness(0.8);
+}
+
+.tab-btn .tab-label {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
