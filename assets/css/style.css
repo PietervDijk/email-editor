@@ -165,3 +165,22 @@ body {
     }
 }
 
+/* ============================================
+   Main Container
+   ============================================ */
+
+.container {
+    flex: 1;
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-2xl);
+    padding-top: calc(var(--navbar-height) + var(--space-2xl));
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 480px 1fr;
+    gap: var(--space-2xl);
+    height: 100%;
+}
+
