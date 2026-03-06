@@ -714,3 +714,89 @@ iframe {
     background: var(--gray-500);
 }
 
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 1400px) {
+    .content {
+        grid-template-columns: 440px 1fr;
+    }
+}
+
+@media (max-width: 1200px) {
+    .content {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .editor-panel {
+        height: auto;
+    }
+    
+    .preview-box {
+        height: 600px;
+    }
+    
+    .tab-content-wrapper {
+        max-height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --navbar-height: 56px;
+    }
+    
+    .container {
+        padding: var(--space-lg);
+        padding-top: calc(var(--navbar-height) + var(--space-lg));
+    }
+    
+    .navbar-content {
+        padding: 0 var(--space-lg);
+    }
+    
+    .brand-subtitle {
+        display: none;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .days-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    
+    .tab-btn .tab-label {
+        font-size: 11px;
+    }
+    
+    .tab-btn .tab-icon img {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .brand-title {
+        font-size: 14px;
+    }
+    
+    .status-badge {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+}
+
