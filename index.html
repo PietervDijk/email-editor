@@ -236,5 +236,65 @@
         </div>
     </footer>
 
+    <!-- Tabs en statusindicator -->
+    <script>
+        // Wisselen tussen tabbladen
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const targetTab = this.getAttribute('data-tab');
+
+                    // Reset actieve tab en toon gekozen tab
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    this.classList.add('active');
+                    document
+                        .querySelector(`[data-content="${targetTab}"]`)
+                        .classList.add('active');
+                });
+            });
+
+            // Statusbericht bij invullen formulier
+            const form = document.getElementById('editor');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const emailField = document.getElementById('email');
+
+            // Eenvoudige validatie van e-mail
+            function isValidEmail(email) {
+                // Basis regex: iets@iets.domein
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email.trim());
+            }
+
+            function updateStatus() {
+                const name = document.getElementById('name').value.trim();
+                const role = document.getElementById('role').value.trim();
+                const workdays = document.querySelectorAll('.day-checkbox:checked');
+                const phone = document.getElementById('phone').value.trim();
+                const email = emailField.value.trim();
+
+                const emailValid = email && isValidEmail(email);
+
+                if (name && role && workdays.length > 0 && phone && emailValid) {
+                    statusIndicator.textContent = 'Klaar om te kopiëren';
+                    statusIndicator.className = 'status-badge ready';
+                } else {
+                    statusIndicator.textContent = 'Vul gegevens in';
+                    statusIndicator.className = 'status-badge';
+                }
+            }
+
+            // Luister naar input & change events
+            form.addEventListener('input', updateStatus);
+            form.addEventListener('change', updateStatus);
+
+            // Blur event: kan suggestion nog steeds aanvullen als je wilt
+            emailField.addEventListener('blur', updateStatus);
+        });
+    </script>
 </body>
 </html>
