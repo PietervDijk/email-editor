@@ -615,3 +615,29 @@ button {
     font-size: 16px;
 }
 
+/* ============================================
+   Hint Box
+   ============================================ */
+
+.hint {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    margin-top: var(--space-md);
+    background: #fffbf0;
+    border-left: 4px solid var(--orange);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--gray-700);
+}
+
+.hint-icon {
+    font-size: 18px;
+}
+
+.hint strong {
+    color: var(--orange);
+    font-weight: 700;
+}
+
