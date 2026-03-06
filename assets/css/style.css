@@ -434,3 +434,65 @@ textarea {
     font-size: 13px;
 }
 
+/* ============================================
+   Checkbox Groups
+   ============================================ */
+
+.checkbox-group {
+    margin-top: var(--space-sm);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--gray-50);
+    border: 2px solid var(--gray-300);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-transform: none;
+}
+
+.checkbox-label:hover {
+    background: var(--gray-100);
+    border-color: var(--gray-400);
+}
+
+.checkbox-label input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray-400);
+    border-radius: 4px;
+    background: var(--white);
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+    background: var(--purple);
+    border-color: var(--purple);
+}
+
+.checkbox-label input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-label span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
