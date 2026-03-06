@@ -133,3 +133,32 @@ const bannerWithSocial = `
   </table>
 `;
 
+// Alleen social (links uitgelijnd over de volle breedte)
+const socialOnlyFullWidth = `
+  <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; width:100%; margin-left: 20px;">
+    <tr>
+      <td style="vertical-align:top;">
+        <div style="color:#4B2E83; font-weight:700; margin-bottom:6px;">volg ons:</div>
+        <table cellspacing="0" cellpadding="0" class="social">
+          <tr>
+            <td style="padding-right:8px;">
+              <a href="https://www.instagram.com/technolableiden/">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/instagram-new--v1.png" alt="Instagram">
+              </a>
+            </td>
+            <td style="padding-right:8px;">
+              <a href="https://www.linkedin.com/company/technolab-leiden/?originalSubdomain=nl">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/linkedin.png" alt="LinkedIn">
+              </a>
+            </td>
+            <td>
+              <a href="mailto:info@technolableiden.nl">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/new-post.png" alt="Mail">
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+`;
