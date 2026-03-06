@@ -523,3 +523,25 @@ textarea {
     display: none;
 }
 
+/* ============================================
+   Error Messages
+   ============================================ */
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 500;
+    border-left: 3px solid #dc2626;
+    border-radius: 4px;
+}
+
+.error-message::before {
+    content: "⚠";
+    font-size: 14px;
+}
+
