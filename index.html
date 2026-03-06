@@ -9,6 +9,11 @@
 </head>
 
 <body>
+    <div class="container">
+        <div class="content">
+            <!-- Linkerpaneel: formulier / editor -->
+            <div class="editor-panel">
+                <form id="editor" oninput="generate()" onsubmit="event.preventDefault()">
 
                     <!-- Tabbladen: Persoonlijk / Bedrijf -->
                     <div class="tab-navigation">
@@ -176,6 +181,26 @@
                         <span class="hint-icon">💡</span>
                         <span><strong>Tip:</strong> Klik op "Kopieer", open Outlook en plak met Ctrl+V</span>
                     </div>
+
+                    <!-- Verborgen textarea met gegenereerde HTML -->
+                    <textarea id="htmlOut" style="display:none;"></textarea>
+                </form>
+            </div>
+
+            <!-- Rechterpaneel: live voorbeeld van handtekening -->
+            <div class="preview-panel">
+                <div class="preview-box">
+                    <div class="preview-header">
+                        <span class="preview-icon">📧</span>
+                        <span>Live Voorbeeld</span>
+                    </div>
+                    <div class="preview-body">
+                        <iframe id="preview" title="Voorbeeld handtekening"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
