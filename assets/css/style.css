@@ -641,3 +641,55 @@ button {
     font-weight: 700;
 }
 
+/* ============================================
+   Preview Panel
+   ============================================ */
+
+.preview-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.preview-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.preview-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--purple);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 3px solid var(--orange);
+}
+
+.preview-icon {
+    font-size: 18px;
+}
+
+.preview-body {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    background: var(--white);
+}
+
