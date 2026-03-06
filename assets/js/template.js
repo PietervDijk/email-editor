@@ -97,3 +97,39 @@ const signatureTemplate = `<!doctype html>
   </body>
 </html>`;
 
+// Banner + social (links uitgelijnd, social naast elkaar aan de rechterkant van de banner)
+const bannerWithSocial = `
+  <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+    <tr>
+      <td style="vertical-align:top;">
+        <a href="(BANNER_LINK)" style="display:block;">
+          <img src="(BANNER)" width="520" alt="Meesterchallenge banner"
+               style="width:520px; max-width:520px; height:auto; display:block; border-radius:12px;" />
+        </a>
+      </td>
+      <td style="vertical-align:top;">
+        <div style="color:#4B2E83; font-weight:700; margin-bottom:6px; margin-top: 17px; margin-left: 70px;">volg ons:</div>
+        <table cellspacing="0" cellpadding="0" class="social" style="margin-left:65px;">
+          <tr>
+            <td style="padding-right:8px;">
+              <a href="https://www.instagram.com/technolableiden/">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/instagram-new--v1.png" alt="Instagram">
+              </a>
+            </td>
+            <td style="padding-right:8px;">
+              <a href="https://www.linkedin.com/company/technolab-leiden/?originalSubdomain=nl">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/linkedin.png" alt="LinkedIn">
+              </a>
+            </td>
+            <td>
+              <a href="mailto:info@technolableiden.nl">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/new-post.png" alt="Mail">
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+`;
+
