@@ -386,3 +386,51 @@ textarea {
     font-family: inherit;
 }
 
+/* ============================================
+   Working Days Grid
+   ============================================ */
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-sm);
+}
+
+.day-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) 0;
+    background: var(--gray-100);
+    border: 2px solid var(--gray-300);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-transform: none;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.day-label:hover {
+    background: var(--gray-200);
+    border-color: var(--gray-400);
+    transform: translateY(-2px);
+}
+
+.day-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.day-label:has(input:checked) {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--white);
+}
+
+.day-label span {
+    font-size: 13px;
+}
+
