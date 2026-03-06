@@ -184,3 +184,19 @@ body {
     height: 100%;
 }
 
+/* ============================================
+   Editor Panel
+   ============================================ */
+
+.editor-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
