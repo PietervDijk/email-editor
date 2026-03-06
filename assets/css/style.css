@@ -800,3 +800,19 @@ iframe {
     }
 }
 
+/* ============================================
+   Focus States
+   ============================================ */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 2px;
+}
+
+.tab-btn:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: -2px;
+}
+
