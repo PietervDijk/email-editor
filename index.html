@@ -295,6 +295,9 @@
             // Blur event: kan suggestion nog steeds aanvullen als je wilt
             emailField.addEventListener('blur', updateStatus);
         });
+
+        // Huidig jaar in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
