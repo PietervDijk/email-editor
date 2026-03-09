@@ -89,6 +89,16 @@ function generate() {
   const bannerBlock = els.showBanner.checked ? bannerWithSocial : socialOnlyFullWidth;
   out = out.replace('(BANNER_AND_SOCIAL)', bannerBlock);
 
+  // Update banner preview
+  const bannerPreview = document.getElementById('bannerPreview');
+  const bannerPreviewImg = document.getElementById('bannerPreviewImg');
+  if (els.showBanner.checked && els.banner.value) {
+    bannerPreview.style.display = 'block';
+    bannerPreviewImg.src = els.banner.value;
+  } else {
+    bannerPreview.style.display = 'none';
+  }
+
   // Alle placeholders vervangen
   for (const k in map) {
     out = out.split(k).join(map[k]);
