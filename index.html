@@ -110,9 +110,30 @@
 
                                 <div class="form-group full-width checkbox-group">
                                     <label class="checkbox-label">
-                                        <input type="checkbox" id="showBanner" checked>
+                                        <input type="checkbox" id="showBanner">
                                         <span>Toon Meesterchallenge-banner</span>
                                     </label>
+                                </div>
+
+                                <!-- Banner-afbeelding onder handtekening -->
+                                <div class="form-group full-width">
+                                    <label>Banner afbeelding URL</label>
+                                    <input type="url" id="banner"
+                                        value="https://www.technolableiden.nl/wp-content/uploads/2026/02/meesterchallenge-banner-scaled.png">
+                                </div>
+
+                                <!-- Link achter de banner -->
+                                <div class="form-group full-width">
+                                    <label>Banner link URL</label>
+                                    <input type="url" id="bannerLink"
+                                        value="https://www.technolableiden.nl/zijinstromers/meesterchallenge-2/">
+                                </div>
+
+                                <!-- Banner preview -->
+                                <div class="form-group full-width" id="bannerPreview" style="display: none;">
+                                    <label>Banner voorbeeld</label>
+                                    <img id="bannerPreviewImg" src="" alt="Banner preview"
+                                        style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                 </div>
                             </div>
                         </div>
@@ -134,7 +155,7 @@
 
                                 <!-- Website zichtbare naam -->
                                 <div class="form-group">
-                                    <label>Website naam (zichtbare tekst)</label>
+                                    <label>Website naam</label>
                                     <input type="text" id="websiteName" value="technolableiden.nl">
                                 </div>
 
@@ -156,21 +177,7 @@
                                     <input type="url" id="logoLink" value="https://www.technolableiden.nl/">
                                 </div>
 
-                                <!-- Banner-afbeelding onder handtekening -->
-                                <div class="form-group full-width">
-                                    <label>Banner afbeelding URL</label>
-                                    <input type="url" id="banner"
-                                        value="https://www.technolableiden.nl/wp-content/uploads/2026/02/meesterchallenge-banner-scaled.png">
-                                </div>
-
-                                <!-- Link achter de banner -->
-                                <div class="form-group full-width">
-                                    <label>Banner link URL</label>
-                                    <input type="url" id="bannerLink"
-                                        value="https://www.technolableiden.nl/zijinstromers/meesterchallenge-2/">
-                                </div>
-
-                                <!-- Scheidingslijn tussen persoonlijke en bedrijfsinformatie aanpassen -->
+                                <!-- Divider afbeelding url -->
                                 <div class="form-group full-width">
                                     <label>Divider afbeelding URL</label>
                                     <input type="url" id="divider" placeholder="Optioneel: eigen divider link" value="">
@@ -229,7 +236,8 @@
                     technolableiden.nl
                 </a>
                 <span class="footer-separator">•</span>
-                <a href="https://technolableiden.sharepoint.com/:w:/s/ToekomstTaal9/IQBGHwU9PmDOSa9nR4-sUBVtAaPHfido96yN6DCq6FflnBE?e=8pP5mp" target="_blank">
+                <a href="https://technolableiden.sharepoint.com/:w:/s/ToekomstTaal9/IQBGHwU9PmDOSa9nR4-sUBVtAaPHfido96yN6DCq6FflnBE?e=8pP5mp"
+                    target="_blank">
                     Gebruiksaanwijzing
                 </a>
             </div>
@@ -304,4 +312,5 @@
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
 </body>
+
 </html>
