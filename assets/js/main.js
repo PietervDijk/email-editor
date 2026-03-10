@@ -18,7 +18,9 @@ const els = {
   downloadBtn: document.getElementById('downloadBtn'),
   showBanner: document.getElementById('showBanner'),
   logoLink: document.getElementById('logoLink'),
-  bannerLink: document.getElementById('bannerLink')
+  bannerLink: document.getElementById('bannerLink'),
+  importBtn: document.getElementById('importBtn'),
+  importFile: document.getElementById('importFile')
 };
 
 function escapeHtml(s) {
@@ -217,6 +219,155 @@ els.downloadBtn.addEventListener('click', () => {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+});
+
+// Import HTML and parse values
+els.importBtn.addEventListener('click', () => {
+  els.importFile.click();
+});
+
+els.importFile.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const htmlContent = event.target.result;
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlContent, 'text/html');
+
+      // Extract name (from purple heading)
+      const nameEl = doc.querySelector('.sig-container div[style*="color:#4B2E83"]');
+      if (nameEl) els.name.value = nameEl.textContent.trim();
+
+      // Extract email
+      const emailLink = doc.querySelector('a[href^="mailto:"]');
+      if (emailLink && emailLink.textContent.includes('@')) {
+        els.email.value = emailLink.textContent.trim();
+      }
+
+      // Extract phone (first one in left column)
+      const leftColumn = doc.querySelectorAll('table.two-col tr')[1]?.querySelector('td table tr');
+      const phoneRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
+        row.querySelector('img[src*="phone"]')
+      );
+      if (phoneRow) {
+        const phoneText = phoneRow.querySelector('td:last-child')?.textContent.trim();
+        if (phoneText && phoneText !== '(tel.)') els.phone.value = phoneText;
+      }
+
+      // Extract role and workdays (combined in left column)
+      const roleRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
+        row.querySelector('img[src*="user"]')
+      );
+      if (roleRow) {
+        const roleText = roleRow.querySelector('td:last-child')?.innerHTML;
+        if (roleText) {
+          const parts = roleText.split('<br>');
+          if (parts[0] && parts[0] !== '(functie)') {
+            els.role.value = parts[0].trim();
+          }
+          // Extract workdays
+          if (parts[1]) {
+            const workdaysText = parts[1].trim();
+            document.querySelectorAll('.day-checkbox').forEach(cb => cb.checked = false);
+            if (workdaysText.includes('ma t/m vr')) {
+              document.querySelectorAll('.day-checkbox').forEach(cb => cb.checked = true);
+            } else if (workdaysText.includes('werkdagen:')) {
+              const days = workdaysText.replace('werkdagen:', '').trim().split(',').map(d => d.trim());
+              days.forEach(day => {
+                const checkbox = document.querySelector(`.day-checkbox[value="${day}"]`);
+                if (checkbox) checkbox.checked = true;
+              });
+            }
+          }
+        }
+      }
+
+      // Extract address
+      const addressRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
+        row.querySelector('img[src*="marker"]')
+      );
+      if (addressRow) {
+        const addressHTML = addressRow.querySelector('td:last-child')?.innerHTML;
+        if (addressHTML) {
+          const addressText = addressHTML.split('<br>').map(line => line.trim()).join('\n');
+          if (addressText && !addressText.includes('(adres)')) {
+            els.address.value = addressText;
+          }
+        }
+      }
+
+      // Extract website
+      const websiteRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
+        row.querySelector('img[src*="domain"]')
+      );
+      if (websiteRow) {
+        const websiteLink = websiteRow.querySelector('a[href]');
+        if (websiteLink) {
+          els.websiteLink.value = websiteLink.getAttribute('href');
+          els.websiteName.value = websiteLink.textContent.trim();
+        }
+      }
+
+      // Extract company phone
+      const companyPhoneRows = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).filter(row => 
+        row.querySelector('img[src*="phone"]')
+      );
+      if (companyPhoneRows.length > 1) {
+        const phoneText = companyPhoneRows[1].querySelector('td:last-child')?.textContent.trim();
+        if (phoneText) els.companyPhone.value = phoneText;
+      }
+
+      // Extract logo
+      const logoImg = doc.querySelector('img[alt*="Technolab"]');
+      if (logoImg) {
+        els.logo.value = logoImg.getAttribute('src');
+        const logoLink = logoImg.closest('a');
+        if (logoLink) els.logoLink.value = logoLink.getAttribute('href');
+      }
+
+      // Extract divider
+      const dividerImg = doc.querySelector('td.vertical-divider img, td[rowspan] img');
+      if (dividerImg) {
+        const dividerSrc = dividerImg.getAttribute('src');
+        if (dividerSrc && !dividerSrc.startsWith('data:image')) {
+          els.divider.value = dividerSrc;
+        }
+      }
+
+      // Extract banner
+      const bannerImg = doc.querySelector('img[width="520"], img[alt*="banner"]');
+      if (bannerImg) {
+        els.banner.value = bannerImg.getAttribute('src');
+        els.showBanner.checked = true;
+        const bannerLink = bannerImg.closest('a');
+        if (bannerLink) els.bannerLink.value = bannerLink.getAttribute('href');
+      } else {
+        els.showBanner.checked = false;
+      }
+
+      // Regenerate preview
+      generate();
+
+      // Visual feedback
+      const originalText = els.importBtn.innerHTML;
+      els.importBtn.innerHTML = '<span class="btn-icon">✓</span><span>Geïmporteerd!</span>';
+      els.importBtn.classList.add('imported');
+      setTimeout(() => {
+        els.importBtn.innerHTML = originalText;
+        els.importBtn.classList.remove('imported');
+      }, 2000);
+
+    } catch (error) {
+      alert('Fout bij het laden van het HTML-bestand. Controleer of het een geldig handtekening-bestand is.');
+      console.error('Import error:', error);
+    }
+  };
+
+  reader.readAsText(file);
+  e.target.value = ''; // Reset zodat hetzelfde bestand opnieuw kan worden geselecteerd
 });
 
 // initial render
