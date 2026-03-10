@@ -244,9 +244,20 @@ els.importFile.addEventListener('change', (e) => {
       if (nameEl) els.name.value = nameEl.textContent.trim();
 
       // Extract email
-      const emailLink = doc.querySelector('a[href^="mailto:"]');
-      if (emailLink && emailLink.textContent.includes('@')) {
-        els.email.value = emailLink.textContent.trim();
+      const emailRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
+        row.querySelector('img[src*="new-post"]')
+      );
+
+      if (emailRow) {
+        const emailText = emailRow.querySelector('td:last-child')?.textContent.trim();
+
+        if (
+          emailText &&
+          emailText !== '(e-mailadres)' &&
+          emailText.includes('@')
+        ) {
+          els.email.value = emailText;
+        }
       }
 
       // Extract phone (first one in left column)
