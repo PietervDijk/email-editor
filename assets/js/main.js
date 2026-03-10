@@ -210,7 +210,9 @@ function showCopied() {
 }
 
 els.downloadBtn.addEventListener('click', () => {
-  const blob = new Blob([els.htmlOut.value], { type: 'text/html;charset=utf-8' });
+  // UTF-8 BOM (Byte Order Mark) toevoegen voor correcte encoding
+  const BOM = '\uFEFF';
+  const blob = new Blob([BOM + els.htmlOut.value], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
