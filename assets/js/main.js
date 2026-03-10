@@ -175,10 +175,10 @@ els.copyBtn.addEventListener('click', async () => {
   // Desktop moderne browsers
   if (navigator.clipboard && window.ClipboardItem) {
     try {
-      const blob = new Blob([html], { type: 'text/html' });
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
       const item = new ClipboardItem({
         'text/html': blob,
-        'text/plain': new Blob([html], { type: 'text/plain' })
+        'text/plain': new Blob([html], { type: 'text/plain;charset=utf-8' })
       });
       await navigator.clipboard.write([item]);
       showCopied();
@@ -210,7 +210,7 @@ function showCopied() {
 }
 
 els.downloadBtn.addEventListener('click', () => {
-  const blob = new Blob([els.htmlOut.value], { type: 'text/html' });
+  const blob = new Blob([els.htmlOut.value], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
