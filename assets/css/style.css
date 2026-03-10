@@ -551,7 +551,7 @@ textarea {
 
 .actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: var(--space-md);
     margin-top: var(--space-lg);
 }
@@ -609,6 +609,12 @@ button {
 
 .btn-secondary:active {
     transform: translateY(0);
+}
+
+.btn-secondary.imported {
+    background: var(--green);
+    color: var(--white);
+    border-color: var(--green);
 }
 
 .btn-icon {
