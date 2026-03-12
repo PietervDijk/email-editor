@@ -1,19 +1,6 @@
-const signatureTemplate = `<!doctype html>
-<html lang="nl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Email handtekening — Technolab Leiden 25/26</title>
-    <style>
-      body { font-family: Arial, Helvetica, sans-serif; margin:0; padding:20px; background:#fdfdfd; min-width: 700px; } 
-      .sig-container { width:700px; } 
-      .social img{ width:22px; height:22px; display:block }
-      table { table-layout: fixed; }
-    </style>
-  </head>
-  <body>
-    <div class="sig-container">
-      <table class="two-col" cellspacing="0" cellpadding="0" style="width:700px; border-collapse:collapse; table-layout:fixed;">
+const signatureTemplate = `
+    <div class="sig-container" style="font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; width:700px;">
+      <table class="two-col" cellspacing="0" cellpadding="0" style="width:700px; border-collapse:collapse; table-layout:fixed; mso-table-lspace:0pt; mso-table-rspace:0pt;">
         <tr>
           <td style="vertical-align:middle; padding:8px; width:55%;">
               <div style="color:#4B2E83; font-weight:700; font-size:20px; margin-bottom:8px; margin-left:10px;">
@@ -93,9 +80,7 @@ const signatureTemplate = `<!doctype html>
         </tr>
 
       </table>
-    </div>
-  </body>
-</html>`;
+    </div>`;
 
 // Banner + social (links uitgelijnd, social naast elkaar aan de rechterkant van de banner)
 const bannerWithSocial = `
@@ -113,17 +98,17 @@ const bannerWithSocial = `
           <tr>
             <td style="padding-right:8px;">
               <a href="https://www.instagram.com/technolableiden/">
-                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/instagram-new--v1.png" alt="Instagram">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/instagram-new--v1.png" alt="Instagram" style="width:22px; height:22px; display:block; border:0;">
               </a>
             </td>
             <td style="padding-right:8px;">
               <a href="https://www.linkedin.com/company/technolab-leiden/?originalSubdomain=nl">
-                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/linkedin.png" alt="LinkedIn">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/linkedin.png" alt="LinkedIn" style="width:22px; height:22px; display:block; border:0;">
               </a>
             </td>
             <td>
               <a href="mailto:info@technolableiden.nl">
-                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/new-post.png" alt="Mail">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/new-post.png" alt="Mail" style="width:22px; height:22px; display:block; border:0;">
               </a>
             </td>
           </tr>
@@ -143,17 +128,17 @@ const socialOnlyFullWidth = `
           <tr>
             <td style="padding-right:8px;">
               <a href="https://www.instagram.com/technolableiden/">
-                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/instagram-new--v1.png" alt="Instagram">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/instagram-new--v1.png" alt="Instagram" style="width:22px; height:22px; display:block; border:0;">
               </a>
             </td>
             <td style="padding-right:8px;">
               <a href="https://www.linkedin.com/company/technolab-leiden/?originalSubdomain=nl">
-                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/linkedin.png" alt="LinkedIn">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/linkedin.png" alt="LinkedIn" style="width:22px; height:22px; display:block; border:0;">
               </a>
             </td>
             <td>
               <a href="mailto:info@technolableiden.nl">
-                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/new-post.png" alt="Mail">
+                <img src="https://img.icons8.com/ios-filled/50/3b2a5a/new-post.png" alt="Mail" style="width:22px; height:22px; display:block; border:0;">
               </a>
             </td>
           </tr>
