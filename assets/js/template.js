@@ -1,4 +1,5 @@
 const signatureTemplate = `
+    <div style="font-family:Arial, Helvetica, sans-serif; color:#333; margin:0 0 12px 10px;">Met vriendelijke groet,</div>
     <div class="sig-container" style="font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; width:700px;">
       <table class="two-col" cellspacing="0" cellpadding="0" style="width:700px; border-collapse:collapse; table-layout:fixed; mso-table-lspace:0pt; mso-table-rspace:0pt;">
         <tr>
