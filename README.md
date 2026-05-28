@@ -65,5 +65,3 @@ const BANNER_VARIANTEN = {
 3. Herlaad pagina en selecteer de banner in de editor.
 
 ---
-
-Als je wilt, kan ik dit voorbeeld ook direct voor je toevoegen aan `assets/js/main.js` en `index.php` (met een voorbeeld-banner). Geef dan even de afbeelding-URL en de doorklik-URL — of zeg dat ik een placeholder moet gebruiken.
