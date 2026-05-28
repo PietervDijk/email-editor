@@ -83,13 +83,13 @@ const signatureTemplate = `
       </table>
     </div>`;
 
-// Banner + social (links uitgelijnd, social naast elkaar aan de rechterkant van de banner)
-const bannerWithSocial = `
+// Banner met social links naast elkaar.
+const bannerMetSocial = `
   <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
     <tr>
       <td style="vertical-align:top;">
         <a href="(BANNER_LINK)" style="display:block;">
-          <img src="(BANNER)" width="520" alt="Meesterchallenge banner"
+          <img src="(BANNER)" width="520" alt="Banner"
                style="width:520px; max-width:520px; height:auto; display:block; border-radius:12px;" />
         </a>
       </td>
@@ -119,8 +119,8 @@ const bannerWithSocial = `
   </table>
 `;
 
-// Alleen social (links uitgelijnd over de volle breedte)
-const socialOnlyFullWidth = `
+// Alleen social links, over de volle breedte.
+const alleenSocialBreed = `
   <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; width:100%; margin-left: 20px;">
     <tr>
       <td style="vertical-align:top;">

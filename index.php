@@ -115,18 +115,12 @@
                                     </label>
                                 </div>
 
-                                <!-- Banner-afbeelding onder handtekening -->
                                 <div class="form-group full-width">
-                                    <label>Banner afbeelding URL</label>
-                                    <input type="url" id="banner"
-                                        value="https://www.technolableiden.nl/wp-content/uploads/2026/02/meesterchallenge-banner-scaled.png">
-                                </div>
-
-                                <!-- Link achter de banner -->
-                                <div class="form-group full-width">
-                                    <label>Banner link URL</label>
-                                    <input type="url" id="bannerLink"
-                                        value="https://www.technolableiden.nl/zijinstromers/meesterchallenge-2/">
+                                    <label>Banner keuze</label>
+                                    <select id="bannerType">
+                                        <option value="techniekToekomst" selected>Techniek &amp; Toekomst</option>
+                                        <option value="meesterChallenge">Meester Challenge</option>
+                                    </select>
                                 </div>
 
                                 <!-- Banner preview -->
@@ -145,12 +139,6 @@
                                     <label>Adres</label>
                                     <textarea id="address" rows="2">Bètaplein 28 
 2321 KS Leiden</textarea>
-                                </div>
-
-                                <!-- Website URL -->
-                                <div class="form-group">
-                                    <label>Website link (URL)</label>
-                                    <input type="url" id="websiteLink" value="https://www.technolableiden.nl">
                                 </div>
 
                                 <!-- Website zichtbare naam -->
