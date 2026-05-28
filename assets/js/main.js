@@ -1,3 +1,18 @@
+const BANNER_VARIANTEN = {
+  techniekToekomst: {
+    image: 'https://www.technolableiden.nl/wp-content/uploads/2026/05/e-mail-handtekening-intern-1.png',
+    link: 'https://www.technolableiden.nl/zijinstromer-techniek-en-toekomst/',
+    alt: 'Techniek & Toekomst banner'
+  },
+  meesterChallenge: {
+    image: 'https://www.technolableiden.nl/wp-content/uploads/2026/02/meesterchallenge-banner-scaled.png',
+    link: 'https://www.technolableiden.nl/zijinstromers/meesterchallenge-2/',
+    alt: 'Meester Challenge banner'
+  }
+};
+
+// De website blijft vast, zodat de editor eenvoudig te begrijpen blijft.
+const VASTE_WEBSITE_LINK = 'https://www.technolableiden.nl/';
 
 const elementen = {
   naam: document.getElementById('name'),
