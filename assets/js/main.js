@@ -1,178 +1,177 @@
-const els = {
-  name: document.getElementById('name'),
-  role: document.getElementById('role'),
-  phone: document.getElementById('phone'),
-  email: document.getElementById('email'),
-  emailSuggestion: document.getElementById('emailSuggestion'),
-  companyPhone: document.getElementById('companyPhone'),
-  companyDetails: document.getElementById('companyDetails'),
-  address: document.getElementById('address'),
-  websiteLink: document.getElementById('websiteLink'),
-  websiteName: document.getElementById('websiteName'),
-  logo: document.getElementById('logo'),
-  banner: document.getElementById('banner'),
-  divider: document.getElementById('divider'),
-  preview: document.getElementById('preview'),
-  htmlOut: document.getElementById('htmlOut'),
-  copyBtn: document.getElementById('copyBtn'),
-  downloadBtn: document.getElementById('downloadBtn'),
-  showBanner: document.getElementById('showBanner'),
-  logoLink: document.getElementById('logoLink'),
-  bannerLink: document.getElementById('bannerLink'),
-  importBtn: document.getElementById('importBtn'),
-  importFile: document.getElementById('importFile')
+
+const elementen = {
+  naam: document.getElementById('name'),
+  functie: document.getElementById('role'),
+  telefoon: document.getElementById('phone'),
+  emailAdres: document.getElementById('email'),
+  emailSuggestie: document.getElementById('emailSuggestion'),
+  bedrijfsTelefoon: document.getElementById('companyPhone'),
+  bedrijfsDetails: document.getElementById('companyDetails'),
+  adres: document.getElementById('address'),
+  websiteNaam: document.getElementById('websiteName'),
+  logoAfbeelding: document.getElementById('logo'),
+  scheidingsAfbeelding: document.getElementById('divider'),
+  voorvertoning: document.getElementById('preview'),
+  htmlUit: document.getElementById('htmlOut'),
+  kopieerKnop: document.getElementById('copyBtn'),
+  downloadKnop: document.getElementById('downloadBtn'),
+  toonBanner: document.getElementById('showBanner'),
+  bannerSoort: document.getElementById('bannerType'),
+  logoKoppeling: document.getElementById('logoLink'),
+  importKnop: document.getElementById('importBtn'),
+  importBestand: document.getElementById('importFile')
 };
 
-function escapeHtml(s) {
-  return String(s || '')
+function maakHtmlVeilig(tekst) {
+  return String(tekst || '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
 
-function getSelectedDays() {
-  const days = [...document.querySelectorAll('.day-checkbox')]
-    .filter(cb => cb.checked)
-    .map(cb => cb.value);
-  return days;
+function haalGeselecteerdeDagenOp() {
+  return [...document.querySelectorAll('.day-checkbox')]
+    .filter(vakje => vakje.checked)
+    .map(vakje => vakje.value);
 }
 
-function formatDaysNl(days) {
-  if (days.length === 0) return '(aanwezig)';
-  if (days.length === 5) return 'werkdagen: ma t/m vr';
-  return 'werkdagen: ' + days.join(', ');
+function maakDagTekst(dagen) {
+  if (dagen.length === 0) return '(aanwezig)';
+  if (dagen.length === 5) return 'werkdagen: ma t/m vr';
+  return 'werkdagen: ' + dagen.join(', ');
 }
 
-function validatePhone() {
-  const phone = els.phone.value.trim();
-  const pattern = /^\+?[0-9\s-]{9,}$/;
-  const valid = pattern.test(phone);
+function haalGekozenBannerOp() {
+  return BANNER_VARIANTEN[elementen.bannerSoort?.value] || BANNER_VARIANTEN.techniekToekomst;
+}
+
+function werkBannerVoorbeeldBij(banner) {
+  const bannerVoorbeeld = document.getElementById('bannerPreview');
+  const bannerVoorbeeldAfbeelding = document.getElementById('bannerPreviewImg');
+
+  if (elementen.toonBanner.checked) {
+    bannerVoorbeeld.style.display = 'block';
+    bannerVoorbeeldAfbeelding.src = banner.image;
+    bannerVoorbeeldAfbeelding.alt = banner.alt;
+  } else {
+    bannerVoorbeeld.style.display = 'none';
+  }
+}
+
+function controleerTelefoon() {
+  const telefoon = elementen.telefoon.value.trim();
+  const patroon = /^\+?[0-9\s-]{9,}$/;
+  const geldig = patroon.test(telefoon);
+
   document.getElementById('phoneError').style.display =
-    valid || phone === '' ? 'none' : 'block';
-  return valid || phone === '';
+    geldig || telefoon === '' ? 'none' : 'block';
+
+  return geldig || telefoon === '';
 }
 
-function generate() {
-  const days = getSelectedDays();
-  let out = signatureTemplate;
+function genereerHandtekening() {
+  const dagen = haalGeselecteerdeDagenOp();
+  const banner = haalGekozenBannerOp();
+  let html = signatureTemplate;
 
-  const map = {
-    '(Naam)': escapeHtml(els.name.value) || '(Naam)',
-    '(functie)': escapeHtml(els.role.value) || '(functie)',
-    '(aanwezig)': formatDaysNl(days),
-    '(tel.)': escapeHtml(els.phone.value) || '(tel.)',
-    '(e-mailadres)': escapeHtml(els.email.value) || '(e-mailadres)',
-
-    // logo & banner (alleen URLs, geen namen)
-    '(LOGO)': els.logo.value || 'https://www.technolableiden.nl/wp-content/uploads/2026/02/tl_logo.gif',
-    '(BANNER)': els.banner.value || 'https://www.technolableiden.nl/wp-content/uploads/2026/02/meesterchallenge-banner-scaled.png',
-
-    '(DIVIDER)': els.divider.value || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAADrCAIAAADMn9A5AAAAH0lEQVR4nGP01mtmYGBgYmBgGKVGqVFqlBqlRinaUAA+TALSkyaMuAAAAABJRU5ErkJggg==',
-
-    '(COMPANY_PHONE)': escapeHtml(els.companyPhone.value || '071 519 13 24'),
-
-    // nieuwe website placeholders: link + zichtbare naam
-    '(WEBSITE_LINK)': els.websiteLink.value || 'https://www.technolableiden.nl',
-    '(WEBSITE_NAME)': escapeHtml(els.websiteName.value) || 'technolableiden.nl',
-
-    // klikbestemmingen voor logo en banner
-    '(LOGO_LINK)': els.logoLink.value || 'https://www.technolableiden.nl/',
-    '(BANNER_LINK)': els.bannerLink.value || 'https://www.technolableiden.nl/zijinstromers/meesterchallenge-2/'
+  const vervangingen = {
+    '(Naam)': maakHtmlVeilig(elementen.naam.value) || '(Naam)',
+    '(functie)': maakHtmlVeilig(elementen.functie.value) || '(functie)',
+    '(aanwezig)': maakDagTekst(dagen),
+    '(tel.)': maakHtmlVeilig(elementen.telefoon.value) || '(tel.)',
+    '(e-mailadres)': maakHtmlVeilig(elementen.emailAdres.value) || '(e-mailadres)',
+    '(LOGO)': elementen.logoAfbeelding.value || 'https://www.technolableiden.nl/wp-content/uploads/2026/02/tl_logo.gif',
+    '(BANNER)': banner.image,
+    '(DIVIDER)': elementen.scheidingsAfbeelding.value || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAADrCAIAAADMn9A5AAAAH0lEQVR4nGP01mtmYGBgYmBgGKVGqVFqlBqlRinaUAA+TALSkyaMuAAAAABJRU5ErkJggg==',
+    '(COMPANY_PHONE)': maakHtmlVeilig(elementen.bedrijfsTelefoon.value || '071 519 13 24'),
+    '(WEBSITE_LINK)': VASTE_WEBSITE_LINK,
+    '(WEBSITE_NAME)': maakHtmlVeilig(elementen.websiteNaam.value) || 'technolableiden.nl',
+    '(LOGO_LINK)': elementen.logoKoppeling?.value || 'https://www.technolableiden.nl/',
+    '(BANNER_LINK)': banner.link
   };
 
-  // Adres vervangen
-  let addr = (els.address.value || 'Bètaplein 28\n2321KS Leiden')
+  // De standaard adresregel uit de template wordt hier vervangen.
+  const adres = (elementen.adres.value || 'Bètaplein 28\n2321KS Leiden')
     .split('\n')
-    .map(l => escapeHtml(l))
+    .map(regel => maakHtmlVeilig(regel))
     .join('<br>');
-  out = out.replace('Bètaplein 28<br>2321KS Leiden', addr);
+  html = html.replace('Bètaplein 28<br>2321KS Leiden', adres);
 
-  // Kies juiste blok: mét banner of alleen social links
-  const bannerBlock = els.showBanner.checked ? bannerWithSocial : socialOnlyFullWidth;
-  out = out.replace('(BANNER_AND_SOCIAL)', bannerBlock);
+  // Hier kiezen we het volledige bannerblok of alleen de social links.
+  const bannerBlok = elementen.toonBanner.checked ? bannerMetSocial : alleenSocialBreed;
+  html = html.replace('(BANNER_AND_SOCIAL)', bannerBlok);
 
-  // Update banner preview
-  const bannerPreview = document.getElementById('bannerPreview');
-  const bannerPreviewImg = document.getElementById('bannerPreviewImg');
-  if (els.showBanner.checked && els.banner.value) {
-    bannerPreview.style.display = 'block';
-    bannerPreviewImg.src = els.banner.value;
+  werkBannerVoorbeeldBij(banner);
+
+  for (const placeholder in vervangingen) {
+    html = html.split(placeholder).join(vervangingen[placeholder]);
+  }
+
+  elementen.voorvertoning.srcdoc = html;
+  elementen.htmlUit.value = html;
+}
+
+const EMAIL_DOMEIN = 'technolableiden.nl';
+
+function toonEmailSuggestie(zichtbaar) {
+  if (!elementen.emailSuggestie) return;
+  if (zichtbaar) {
+    elementen.emailSuggestie.classList.remove('hidden');
   } else {
-    bannerPreview.style.display = 'none';
+    elementen.emailSuggestie.classList.add('hidden');
   }
-
-  // Alle placeholders vervangen
-  for (const k in map) {
-    out = out.split(k).join(map[k]);
-  }
-
-  els.preview.srcdoc = out;
-  els.htmlOut.value = out;
 }
 
-// Email suggestion behavior
-const DOMAIN = 'technolableiden.nl';
+function accepteerEmailSuggestie() {
+  const waarde = elementen.emailAdres.value || '';
+  const delen = waarde.split('@');
+  const lokaalDeel = delen[0] || '';
 
-function showEmailSuggestion(show) {
-  if (!els.emailSuggestion) return;
-  if (show) els.emailSuggestion.classList.remove('hidden');
-  else els.emailSuggestion.classList.add('hidden');
+  elementen.emailAdres.value = lokaalDeel + '@' + EMAIL_DOMEIN;
+  toonEmailSuggestie(false);
+  genereerHandtekening();
+  elementen.emailAdres.setSelectionRange(elementen.emailAdres.value.length, elementen.emailAdres.value.length);
+  elementen.emailAdres.focus();
 }
 
-function acceptEmailSuggestion() {
-  const v = els.email.value || '';
-  const parts = v.split('@');
-  const local = parts[0] || '';
-  els.email.value = local + '@' + DOMAIN;
-  showEmailSuggestion(false);
-  generate();
-  // move caret to end
-  els.email.setSelectionRange(els.email.value.length, els.email.value.length);
-  els.email.focus();
-}
-
-els.email.addEventListener('input', e => {
-  const v = e.target.value || '';
-  // Show suggestion when user types '@' or ends with '@'
-  if (v.endsWith('@')) {
-    showEmailSuggestion(true);
+elementen.emailAdres.addEventListener('input', event => {
+  const waarde = event.target.value || '';
+  if (waarde.endsWith('@')) {
+    toonEmailSuggestie(true);
   } else {
-    showEmailSuggestion(false);
+    toonEmailSuggestie(false);
   }
 });
 
-els.showBanner.addEventListener('change', generate);
+elementen.toonBanner.addEventListener('change', genereerHandtekening);
+elementen.bannerSoort && elementen.bannerSoort.addEventListener('change', genereerHandtekening);
+elementen.emailSuggestie && elementen.emailSuggestie.addEventListener('click', accepteerEmailSuggestie);
 
-// Accept suggestion by clicking it
-els.emailSuggestion && els.emailSuggestion.addEventListener('click', acceptEmailSuggestion);
-
-// Accept suggestion with Tab or Enter when visible
-els.email.addEventListener('keydown', e => {
-  if (!els.emailSuggestion || els.emailSuggestion.classList.contains('hidden')) return;
-  if (e.key === 'Tab' || e.key === 'Enter') {
-    e.preventDefault();
-    acceptEmailSuggestion();
+elementen.emailAdres.addEventListener('keydown', event => {
+  if (!elementen.emailSuggestie || elementen.emailSuggestie.classList.contains('hidden')) return;
+  if (event.key === 'Tab' || event.key === 'Enter') {
+    event.preventDefault();
+    accepteerEmailSuggestie();
   }
 });
 
-// Checkboxen voor werkdagen triggeren ook generate
-document.querySelectorAll('.day-checkbox').forEach(cb => {
-  cb.addEventListener('change', generate);
+// Werkdagen veranderen direct de tekst, dus we genereren opnieuw bij elk vakje.
+document.querySelectorAll('.day-checkbox').forEach(vakje => {
+  vakje.addEventListener('change', genereerHandtekening);
 });
 
-// Telefoonveld validatie
-els.phone.addEventListener('input', function () {
-  validatePhone();
-  generate();
+// Telefoon krijgt meteen validatiefeedback en een nieuwe preview.
+elementen.telefoon.addEventListener('input', () => {
+  controleerTelefoon();
+  genereerHandtekening();
 });
 
-// regenerate preview when company section is toggled
-els.companyDetails && els.companyDetails.addEventListener('toggle', () => generate());
+elementen.bedrijfsDetails && elementen.bedrijfsDetails.addEventListener('toggle', () => genereerHandtekening());
 
-els.copyBtn.addEventListener('click', async () => {
-  const html = els.htmlOut.value;
+elementen.kopieerKnop.addEventListener('click', async () => {
+  const html = elementen.htmlUit.value;
 
-  // Desktop moderne browsers
+  // Eerst proberen we de moderne clipboard-API.
   if (navigator.clipboard && window.ClipboardItem) {
     try {
       const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -181,38 +180,39 @@ els.copyBtn.addEventListener('click', async () => {
         'text/plain': new Blob([html], { type: 'text/plain;charset=utf-8' })
       });
       await navigator.clipboard.write([item]);
-      showCopied();
+      toonGekopieerd();
       return;
-    } catch (e) {
+    } catch (error) {
       console.warn('Clipboard API faalde, fallback wordt gebruikt.');
     }
   }
 
-  // Mobiele fallback
+  // Fallback voor browsers of situaties waarin kopiëren niet lukt.
   const textarea = document.createElement('textarea');
   textarea.value = html;
   document.body.appendChild(textarea);
   textarea.select();
-  textarea.setSelectionRange(0, 999999); // iOS fix
+  textarea.setSelectionRange(0, 999999);
   document.execCommand('copy');
   document.body.removeChild(textarea);
 
-  showCopied();
+  toonGekopieerd();
 });
 
-function showCopied() {
-  els.copyBtn.textContent = '✓ Gekopieerd!';
-  els.copyBtn.classList.add('copied');
+function toonGekopieerd() {
+  elementen.kopieerKnop.textContent = '✓ Gekopieerd!';
+  elementen.kopieerKnop.classList.add('copied');
+
   setTimeout(() => {
-    els.copyBtn.textContent = '📋 Kopieer voor Outlook';
-    els.copyBtn.classList.remove('copied');
+    elementen.kopieerKnop.textContent = '📋 Kopieer voor Outlook';
+    elementen.kopieerKnop.classList.remove('copied');
   }, 2000);
 }
 
-els.downloadBtn.addEventListener('click', () => {
-  // UTF-8 BOM (Byte Order Mark) toevoegen voor correcte encoding
+elementen.downloadKnop.addEventListener('click', () => {
+  // BOM helpt Outlook en sommige editors om UTF-8 goed te lezen.
   const BOM = '\uFEFF';
-  const blob = new Blob([BOM + els.htmlOut.value], { type: 'text/html;charset=utf-8' });
+  const blob = new Blob([BOM + elementen.htmlUit.value], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -223,165 +223,173 @@ els.downloadBtn.addEventListener('click', () => {
   URL.revokeObjectURL(url);
 });
 
-// Import HTML and parse values
-els.importBtn.addEventListener('click', () => {
-  els.importFile.click();
+elementen.importKnop.addEventListener('click', () => {
+  elementen.importBestand.click();
 });
 
-els.importFile.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+elementen.importBestand.addEventListener('change', gebeurtenis => {
+  const bestand = gebeurtenis.target.files[0];
+  if (!bestand) return;
 
-  const reader = new FileReader();
-  reader.onload = (event) => {
+  const lezer = new FileReader();
+  lezer.onload = event => {
     try {
-      const htmlContent = event.target.result;
+      const htmlInhoud = event.target.result;
       const parser = new DOMParser();
-      const doc = parser.parseFromString(htmlContent, 'text/html');
+      const geimporteerdDocument = parser.parseFromString(htmlInhoud, 'text/html');
 
-      // Extract name (from purple heading)
-      const nameEl = doc.querySelector('.sig-container div[style*="color:#4B2E83"]');
-      if (nameEl) els.name.value = nameEl.textContent.trim();
+      const naamElement = geimporteerdDocument.querySelector('.sig-container div[style*="color:#4B2E83"]');
+      if (naamElement) elementen.naam.value = naamElement.textContent.trim();
 
-      // Extract email
-      const emailRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
-        row.querySelector('img[src*="new-post"]')
+      const emailRij = Array.from(geimporteerdDocument.querySelectorAll('table.two-col tr td table tr')).find(rij =>
+        rij.querySelector('img[src*="new-post"]')
       );
-
-      if (emailRow) {
-        const emailText = emailRow.querySelector('td:last-child')?.textContent.trim();
-
-        if (
-          emailText &&
-          emailText !== '(e-mailadres)' &&
-          emailText.includes('@')
-        ) {
-          els.email.value = emailText;
+      if (emailRij) {
+        const emailTekst = emailRij.querySelector('td:last-child')?.textContent.trim();
+        if (emailTekst && emailTekst !== '(e-mailadres)' && emailTekst.includes('@')) {
+          elementen.emailAdres.value = emailTekst;
         }
       }
 
-      // Extract phone (first one in left column)
-      const leftColumn = doc.querySelectorAll('table.two-col tr')[1]?.querySelector('td table tr');
-      const phoneRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
-        row.querySelector('img[src*="phone"]')
+      const telefoonRij = Array.from(geimporteerdDocument.querySelectorAll('table.two-col tr td table tr')).find(rij =>
+        rij.querySelector('img[src*="phone"]')
       );
-      if (phoneRow) {
-        const phoneText = phoneRow.querySelector('td:last-child')?.textContent.trim();
-        if (phoneText && phoneText !== '(tel.)') els.phone.value = phoneText;
+      if (telefoonRij) {
+        const telefoonTekst = telefoonRij.querySelector('td:last-child')?.textContent.trim();
+        if (telefoonTekst && telefoonTekst !== '(tel.)') {
+          elementen.telefoon.value = telefoonTekst;
+        }
       }
 
-      // Extract role and workdays (combined in left column)
-      const roleRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
-        row.querySelector('img[src*="user"]')
+      const functieRij = Array.from(geimporteerdDocument.querySelectorAll('table.two-col tr td table tr')).find(rij =>
+        rij.querySelector('img[src*="user"]')
       );
-      if (roleRow) {
-        const roleText = roleRow.querySelector('td:last-child')?.innerHTML;
-        if (roleText) {
-          const parts = roleText.split('<br>');
-          if (parts[0] && parts[0] !== '(functie)') {
-            els.role.value = parts[0].trim();
+      if (functieRij) {
+        const functieTekst = functieRij.querySelector('td:last-child')?.innerHTML;
+        if (functieTekst) {
+          const delen = functieTekst.split('<br>');
+          if (delen[0] && delen[0] !== '(functie)') {
+            elementen.functie.value = delen[0].trim();
           }
-          // Extract workdays
-          if (parts[1]) {
-            const workdaysText = parts[1].trim();
-            document.querySelectorAll('.day-checkbox').forEach(cb => cb.checked = false);
-            if (workdaysText.includes('ma t/m vr')) {
-              document.querySelectorAll('.day-checkbox').forEach(cb => cb.checked = true);
-            } else if (workdaysText.includes('werkdagen:')) {
-              const days = workdaysText.replace('werkdagen:', '').trim().split(',').map(d => d.trim());
-              days.forEach(day => {
-                const checkbox = document.querySelector(`.day-checkbox[value="${day}"]`);
-                if (checkbox) checkbox.checked = true;
+
+          if (delen[1]) {
+            const werkdagenTekst = delen[1].trim();
+            document.querySelectorAll('.day-checkbox').forEach(vakje => vakje.checked = false);
+
+            if (werkdagenTekst.includes('ma t/m vr')) {
+              document.querySelectorAll('.day-checkbox').forEach(vakje => vakje.checked = true);
+            } else if (werkdagenTekst.includes('werkdagen:')) {
+              const dagen = werkdagenTekst.replace('werkdagen:', '').trim().split(',').map(dag => dag.trim());
+              dagen.forEach(dag => {
+                const vakje = document.querySelector(`.day-checkbox[value="${dag}"]`);
+                if (vakje) vakje.checked = true;
               });
             }
           }
         }
       }
 
-      // Extract address
-      const addressRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
-        row.querySelector('img[src*="marker"]')
+      const adresRij = Array.from(geimporteerdDocument.querySelectorAll('table.two-col tr td table tr')).find(rij =>
+        rij.querySelector('img[src*="marker"]')
       );
-      if (addressRow) {
-        const addressHTML = addressRow.querySelector('td:last-child')?.innerHTML;
-        if (addressHTML) {
-          const addressText = addressHTML.split('<br>').map(line => line.trim()).join('\n');
-          if (addressText && !addressText.includes('(adres)')) {
-            els.address.value = addressText;
+      if (adresRij) {
+        const adresHtml = adresRij.querySelector('td:last-child')?.innerHTML;
+        if (adresHtml) {
+          const adresTekst = adresHtml.split('<br>').map(regel => regel.trim()).join('\n');
+          if (adresTekst && !adresTekst.includes('(adres)')) {
+            elementen.adres.value = adresTekst;
           }
         }
       }
 
-      // Extract website
-      const websiteRow = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).find(row => 
-        row.querySelector('img[src*="domain"]')
+      const websiteRij = Array.from(geimporteerdDocument.querySelectorAll('table.two-col tr td table tr')).find(rij =>
+        rij.querySelector('img[src*="domain"]')
       );
-      if (websiteRow) {
-        const websiteLink = websiteRow.querySelector('a[href]');
+      if (websiteRij) {
+        const websiteLink = websiteRij.querySelector('a[href]');
         if (websiteLink) {
-          els.websiteLink.value = websiteLink.getAttribute('href');
-          els.websiteName.value = websiteLink.textContent.trim();
+          elementen.websiteNaam.value = websiteLink.textContent.trim();
         }
       }
 
-      // Extract company phone
-      const companyPhoneRows = Array.from(doc.querySelectorAll('table.two-col tr td table tr')).filter(row => 
-        row.querySelector('img[src*="phone"]')
+      const bedrijfsTelefoonRijen = Array.from(geimporteerdDocument.querySelectorAll('table.two-col tr td table tr')).filter(rij =>
+        rij.querySelector('img[src*="phone"]')
       );
-      if (companyPhoneRows.length > 1) {
-        const phoneText = companyPhoneRows[1].querySelector('td:last-child')?.textContent.trim();
-        if (phoneText) els.companyPhone.value = phoneText;
-      }
-
-      // Extract logo
-      const logoImg = doc.querySelector('img[alt*="Technolab"]');
-      if (logoImg) {
-        els.logo.value = logoImg.getAttribute('src');
-        const logoLink = logoImg.closest('a');
-        if (logoLink) els.logoLink.value = logoLink.getAttribute('href');
-      }
-
-      // Extract divider
-      const dividerImg = doc.querySelector('td.vertical-divider img, td[rowspan] img');
-      if (dividerImg) {
-        const dividerSrc = dividerImg.getAttribute('src');
-        if (dividerSrc && !dividerSrc.startsWith('data:image')) {
-          els.divider.value = dividerSrc;
+      if (bedrijfsTelefoonRijen.length > 1) {
+        const telefoonTekst = bedrijfsTelefoonRijen[1].querySelector('td:last-child')?.textContent.trim();
+        if (telefoonTekst) {
+          elementen.bedrijfsTelefoon.value = telefoonTekst;
         }
       }
 
-      // Extract banner
-      const bannerImg = doc.querySelector('img[width="520"], img[alt*="banner"]');
-      if (bannerImg) {
-        els.banner.value = bannerImg.getAttribute('src');
-        els.showBanner.checked = true;
-        const bannerLink = bannerImg.closest('a');
-        if (bannerLink) els.bannerLink.value = bannerLink.getAttribute('href');
-      } else {
-        els.showBanner.checked = false;
+      const logoAfbeelding = geimporteerdDocument.querySelector('img[alt*="Technolab"]');
+      if (logoAfbeelding) {
+        elementen.logoAfbeelding.value = logoAfbeelding.getAttribute('src');
+        const logoKoppeling = logoAfbeelding.closest('a');
+        if (logoKoppeling) {
+          elementen.logoKoppeling.value = logoKoppeling.getAttribute('href');
+        }
       }
 
-      // Regenerate preview
-      generate();
+      const scheidingsAfbeelding = geimporteerdDocument.querySelector('td.vertical-divider img, td[rowspan] img');
+      if (scheidingsAfbeelding) {
+        const scheidingsBron = scheidingsAfbeelding.getAttribute('src');
+        if (scheidingsBron && !scheidingsBron.startsWith('data:image')) {
+          elementen.scheidingsAfbeelding.value = scheidingsBron;
+        }
+      }
 
-      // Visual feedback
-      const originalText = els.importBtn.innerHTML;
-      els.importBtn.innerHTML = '<span class="btn-icon">✓</span><span>Geïmporteerd!</span>';
-      els.importBtn.classList.add('imported');
+      const bannerAfbeelding = geimporteerdDocument.querySelector('img[width="520"], img[alt*="banner"]');
+      if (bannerAfbeelding) {
+        elementen.toonBanner.checked = true;
+        const bannerBron = bannerAfbeelding.getAttribute('src') || '';
+        const bannerKoppeling = bannerAfbeelding.closest('a');
+
+        if (bannerBron.includes('meesterchallenge')) {
+          elementen.bannerSoort.value = 'meesterChallenge';
+        } else {
+          elementen.bannerSoort.value = 'techniekToekomst';
+        }
+
+        if (bannerKoppeling && bannerKoppeling.getAttribute('href')) {
+          const href = bannerKoppeling.getAttribute('href');
+          if (href.includes('meesterchallenge')) {
+            elementen.bannerSoort.value = 'meesterChallenge';
+          }
+        }
+      } else {
+        elementen.toonBanner.checked = false;
+      }
+
+      genereerHandtekening();
+
+      const oorspronkelijkeTekst = elementen.importKnop.innerHTML;
+      elementen.importKnop.innerHTML = '<span class="btn-icon">✓</span><span>Geïmporteerd!</span>';
+      elementen.importKnop.classList.add('imported');
       setTimeout(() => {
-        els.importBtn.innerHTML = originalText;
-        els.importBtn.classList.remove('imported');
+        elementen.importKnop.innerHTML = oorspronkelijkeTekst;
+        elementen.importKnop.classList.remove('imported');
       }, 2000);
-
     } catch (error) {
       alert('Fout bij het laden van het HTML-bestand. Controleer of het een geldig handtekening-bestand is.');
       console.error('Import error:', error);
     }
   };
 
-  reader.readAsText(file);
-  e.target.value = ''; // Reset zodat hetzelfde bestand opnieuw kan worden geselecteerd
+  lezer.readAsText(bestand);
+  gebeurtenis.target.value = '';
 });
 
-// initial render
-generate();
+// De eerste render zorgt direct voor een kloppende preview.
+genereerHandtekening();
+
+// Backwards-compatibiliteit: sommige plekken in de HTML gebruiken
+// nog `oninput="generate()"`. Maak een kleine alias zodat die
+// oude globale functie blijft werken.
+window.generate = function () {
+  try {
+    genereerHandtekening();
+  } catch (e) {
+    console.error('generate alias faalde:', e);
+  }
+};
