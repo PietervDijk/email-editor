@@ -222,7 +222,7 @@
     <footer class="app-footer">
         <div class="footer-content">
             <div class="footer-left">
-                © <span id="currentYear"></span> Technolab Leiden
+                © Technolab Leiden <span id="currentYear"></span> 
             </div>
             <div class="footer-right">
                 <a href="https://www.technolableiden.nl" target="_blank">
