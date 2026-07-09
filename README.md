@@ -70,6 +70,9 @@ email-editor/
 
 ## 🎯 Functies
 
+### 📧 Live Preview (de kernfunctie)
+De **live preview** aan de rechterkant is het hart van de editor. Terwijl je de formulieren invult in beide tabbladen (Persoonlijk én Bedrijf), zie je **real-time** hoe de email handtekening eruit zal zien. Dit combineert alle gegevens uit beide tabbladen in één professioneel formatted email signature.
+
 ### Tabblad "Persoonlijk"
 - **Naam** — volledige naam van de medewerker
 - **Functie** — jobtitel
@@ -77,6 +80,9 @@ email-editor/
 - **Telefoon** — mobiel telefoonnummer (validatie ingebouwd)
 - **Email** — persoonlijk email adres
 - **Email suggestie** — optioneel auto-vullen van emailadres
+- **Toon banner in Handtekening** — checkbox om een promotiebanner toe te voegen
+- **Banner keuze** — dropdown met beschikbare banners
+- **Banner voorbeeld** — live preview van je geselecteerde banner
 
 ### Tabblad "Bedrijf"
 - **Bedrijfstelefoon** — centrale kantoortelefoon
@@ -87,36 +93,37 @@ email-editor/
 - **Logo koppeling** — URL waar logo naar linkt
 - **Website naam** — bedrijfswebsite
 
-### Extra opties
-- **Toon banner** — checkbox voor promotiebanner
-- **Bannertype** — dropdown met beschikbare banners
-- **Voorvertoning** — real-time preview van de handtekening
-- **Kopieren** — copy HTML naar klembord
-- **Downloaden** — save als `.html` bestand
-- **Importeren** — laad eerder opgeslagen instellingen
+### Acties 
+- **Kopiëren** — kopieer gegenereerde HTML naar klembord (klaar om in email client te plakken)
+- **Downloaden** — sla de HTML op als bestand
+- **Importeren** — laad eerder opgeslagen instellingen terug
 
 ---
 
 ## 💻 Hoe te gebruiken
 
-1. Vul je gegevens in via de twee tabbladen
-2. Bekijk de live preview rechts
-3. (Optioneel) Voeg een promotiebanner toe via "Toon banner"
-4. Klik **Kopieren** om de HTML naar je klembord te kopiëren
-5. Plak in je email client (Outlook, Gmail, Thunderbird, etc.)
+1. Vul je **persoonlijke gegevens** in het tabblad **Persoonlijk**
+2. Schakel naar tabblad **Bedrijf** en vul bedrijfsgegevens in
+3. Bekijk de **live preview** aan de rechterkant — deze update real-time terwijl je typt
+4. (Optioneel) Voeg een promotiebanner toe via "Toon banner in Handtekening"
+5. Klik **Kopieren** om de HTML naar je klembord te kopiëren
+6. Plak in je email client (Outlook, Gmail, Thunderbird, etc.)
 
 **Of:**
-- Klik **Downloaden** om het bestand te bewaren
+- Klik **Downloaden** om het gegenereerde bestand te bewaren
+- Klik **Importeren** om eerder opgeslagen instellingen in te laden
 
 ---
 
-## 🎨 Banners aanpassen
+## 🎨 Banners toevoegen — volledig stappenplan
 
-### Methode A — Een banner toevoegen in `assets/js/main.js`
+Volg **beide** stappen hieronder om een nieuwe banner volledig werkend in te stellen:
 
-1. Open `assets/js/main.js`
-2. Zoek de constante `BANNER_VARIANTEN` (omstreeks regel 1)
-3. Voeg een nieuwe banner toe:
+### Stap 1: Banner-gegevens toevoegen in `assets/js/main.js`
+
+1. Open `assets/js/main.js` in je editor
+2. Zoek bovenaan het bestand de constante `BANNER_VARIANTEN`
+3. Voeg je banner toe **na** `meesterChallenge` (let op: komma na vorige banner!):
 
 ```js
 const BANNER_VARIANTEN = {
@@ -130,7 +137,6 @@ const BANNER_VARIANTEN = {
     link: 'https://www.technolableiden.nl/zijinstromers/meesterchallenge-2/',
     alt: 'Meester Challenge banner'
   },
-  // ✨ Voeg je nieuwe banner hier toe:
   mijnNieuweBanner: {
     image: 'https://example.com/mijn-banner.jpg',
     link: 'https://voorbeeld.nl',
@@ -139,20 +145,40 @@ const BANNER_VARIANTEN = {
 };
 ```
 
-4. Sla `main.js` op
-5. (Optioneel) Voeg een optie toe in `index.php` in de `<select id="bannerType">`:
+4. Sla `main.js` op (Ctrl+S)
+
+### Stap 2: Dropdown-optie toevoegen in `index.php`
+
+1. Open `index.php` in je editor
+2. Zoek naar `<select id="bannerType">` (omstreeks regel 120)
+3. Voeg je optie toe **na** de bestaande opties:
 
 ```html
-<option value="mijnNieuweBanner">Mijn nieuwe banner</option>
+<select id="bannerType">
+  <option value="techniekToekomst" selected>Techniek &amp; Toekomst</option>
+  <option value="meesterChallenge">Meester Challenge</option>
+  <option value="mijnNieuweBanner">Mijn nieuwe banner</option>
+</select>
 ```
 
-6. Herlaad de pagina (Ctrl+F5) en selecteer je banner in de dropdown
+4. Sla `index.php` op (Ctrl+S)
 
-### ⚠️ Belangrijk bij banners
-- Zorg dat alle afbeelding-URLs **publiek bereikbaar** zijn (https, geen login)
-- Controleer URLs in je browser op CORS- of laad-problemen
-- Beide `link` en `image` moeten valide URLs zijn
-- Na `main.js` wijzigen: **hard refresh** (Ctrl+F5 of Cmd+Shift+R)
+### Stap 3: Testen
+
+1. **Hard refresh** de pagina in je browser: **Ctrl+F5** (Windows) of **Cmd+Shift+R** (Mac)
+2. Ga naar het tabblad **Persoonlijk**
+3. Vink het vakje **"Toon banner in Handtekening"** aan
+4. Open de dropdown bij **"Banner keuze"**
+5. Je nieuwe banner **"Mijn nieuwe banner"** moet nu zichtbaar zijn
+6. Selecteer je banner en bekijk de preview
+
+### ⚠️ Checklist voor je banner
+
+- [ ] `value` in de `<option>` (bijv. `mijnNieuweBanner`) moet **exact** gelijk zijn aan de key in `BANNER_VARIANTEN`
+- [ ] Afbeelding-URL is **publiek bereikbaar** (https, geen login/intra)
+- [ ] `image` en `link` zijn beide **volledige URLs** (incl. https://)
+- [ ] Komma's staan juist in `BANNER_VARIANTEN` (na elke banner behalve de laatste)
+- [ ] Hard refresh (Ctrl+F5) na wijzigen van bestanden
 
 ---
 
@@ -190,7 +216,7 @@ const BANNER_VARIANTEN = {
 ## 📝 Veelgestelde vragen
 
 **V: Mijn afbeelding laadt niet in de preview**
-> Zorg dat de URL (1) toegankelijk is, (2) HTTPS gebruikt, en (3) geen login/intra vereist.
+> Zorg dat de URL (1) publiek bereikbaar is, (2) HTTPS gebruikt, en (3) geen login/intra vereist.
 
 **V: Wat gebeurt er als ik de HTML handtekening in Outlook plak?**
 > Het zou net zo moeten uitzien als in de preview. Outlook ondersteunt inline CSS en tabel-gebaseerde layouts.
