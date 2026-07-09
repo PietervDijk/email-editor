@@ -1,67 +1,220 @@
-# email-editor
-<img width="1595" height="820" alt="{27ED3F6F-89C6-4D45-8ED9-B410CFB508D6}" src="https://github.com/user-attachments/assets/429c442f-9711-47b9-9c32-a6e5244cbfef" />
-<a href="https://technolableiden.sharepoint.com/:w:/s/ToekomstTaal9/IQBGHwU9PmDOSa9nR4-sUBVtAaPHfido96yN6DCq6FflnBE?e=8pP5mp">Gebruiksaanwijzing</a>
+# Email Handtekening Editor
 
-## Nieuwe banner toevoegen (stappenplan)
+Een interactieve web-editor om professionele email handtekeningen aan te maken en te downloaden voor Technolab Leiden medewerkers.
 
-Wil je een extra banner toevoegen die via een externe URL geladen wordt en naar een andere site doorverwijst? Volg één van de twee eenvoudige methodes hieronder.
+## 📋 Over dit project
 
-Belangrijk: de code gebruikt een kleine JavaScript-map met banners (`BANNER_VARIANTEN`) en een `select`-element (`#bannerType`). Je voegt een nieuwe banner toe door die map uit te breiden en (indien nodig) een optie aan de `select` toe te voegen in de HTML.
+Dit is een **responsive web-applicatie** waarmee gebruikers snel een persoonlijke email handtekening kunnen genereren. De editor biedt:
+- Invullen van persoonlijke gegevens (naam, functie, telefoonnummer)
+- Bedrijfsgegevens en contactinformatie
+- Selectie van werkdagen
+- Aangepaste logo's en decoraties
+- Live preview van de handtekening
+- Kopie naar klembord en downloadoptie
+- Optionele promotiebanner
 
-### Methode A — Snel: voeg een banner toe in `assets/js/main.js`
+**Screenshot:**
+<img width="1595" height="820" alt="Email Handtekening Editor" src="https://github.com/user-attachments/assets/429c442f-9711-47b9-9c32-a6e5244cbfef" />
 
-1. Open `assets/js/main.js` in je editor.
-2. Zoek de constante `BANNER_VARIANTEN` (er staat al een entry voor bijvoorbeeld `techniekToekomst` en `meesterChallenge`).
-3. Voeg een nieuwe key toe met een uniek id-naam (zonder spaties). Voorbeeld:
+---
 
-```js
-// voeg dit toe binnen de bestaande BANNER_VARIANTEN map
-mijnNieuweBanner: {
-	image: 'https://example.com/mijn-banner.jpg',
-	href: 'https://voorbeeld.nl',
-	alt: 'Mijn nieuwe banner'
-},
+## 🚀 Aan de slag
+
+### Vereisten
+- PHP 5.4+ (lokale webserver of hosting met PHP)
+- Moderne webbrowser (Chrome, Firefox, Safari, Edge)
+- Geen externe afhankelijkheden (jQuery, Bootstrap, etc.)
+
+### Installatie
+
+1. **Clone of download** dit project:
+   ```bash
+   git clone https://github.com/technolableiden/email-editor.git
+   cd email-editor
+   ```
+
+2. **Start een lokale webserver**:
+   - **PHP ingebouwd** (PHP 5.4+):
+     ```bash
+     php -S localhost:8000
+     ```
+   - **Python 3**:
+     ```bash
+     python -m http.server 8000
+     ```
+   - **Live Server** (VS Code): Klik rechts op `index.php` → "Open with Live Server"
+
+3. **Open in je browser**:
+   ```
+   http://localhost:8000
+   ```
+
+---
+
+## 📁 Projectstructuur
+
+```
+email-editor/
+├── index.php                 # Hoofdbestand (HTML + formulier)
+├── assets/
+│   ├── css/
+│   │   └── style.css        # Volledige styling (responsive design)
+│   ├── js/
+│   │   ├── main.js          # Logica & banners (kernfunctionaliteit)
+│   │   └── template.js      # HTML template voor handtekening
+│   └── images/              # Folder voor afbeeldingen (nog niet gebruikt)
+└── README.md                # Dit bestand
 ```
 
-4. Sla op.
+---
 
-5. (Optioneel) Als je wilt dat deze banner zichtbaar wordt in de dropdown, voeg dan ook een optie toe in `index.php`.
+## 🎯 Functies
 
-```html
-<option value="mijnNieuweBanner">Mijn nieuwe banner</option>
-```
+### Tabblad "Persoonlijk"
+- **Naam** — volledige naam van de medewerker
+- **Functie** — jobtitel
+- **Werkdagen** — selecteer op welke dagen je beschikbaar bent (ma t/m vr)
+- **Telefoon** — mobiel telefoonnummer (validatie ingebouwd)
+- **Email** — persoonlijk email adres
+- **Email suggestie** — optioneel auto-vullen van emailadres
 
-6. Herlaad de pagina in de browser en kies in de editor bij `Toon banner` de nieuwe optie. Controleer de live preview.
+### Tabblad "Bedrijf"
+- **Bedrijfstelefoon** — centrale kantoortelefoon
+- **Adres** — bedrijfsadres
+- **Website naam** — naam die in de handtekening verschijnt
+- **Logo URL** — link naar bedrijfslogo
+- **Divider afbeelding** — decoratieve scheidingslijn
+- **Logo koppeling** — URL waar logo naar linkt
+- **Website naam** — bedrijfswebsite
 
-### Methode B — Direct in de HTML (als je geen JS wilt aanpassen)
+### Extra opties
+- **Toon banner** — checkbox voor promotiebanner
+- **Bannertype** — dropdown met beschikbare banners
+- **Voorvertoning** — real-time preview van de handtekening
+- **Kopieren** — copy HTML naar klembord
+- **Downloaden** — save als `.html` bestand
+- **Importeren** — laad eerder opgeslagen instellingen
 
-Als je snel een andere banner wilt tonen zonder de map te bewerken, kun je tijdelijk de `src` en `href` in de gegenereerde template in de preview overschrijven (handmatig). Dit is alleen handig voor ad-hoc tests en niet als permanente oplossing.
+---
 
-### Testen en veelvoorkomende problemen
+## 💻 Hoe te gebruiken
 
-- Zorg dat de `image` URL publiek bereikbaar is (geen login of interne netwerkroutes).
-- Als de afbeelding niet laadt: controleer de URL in een nieuw tabblad en kijk naar HTTPS- of CORS-problemen.
-- Na wijzigen van `assets/js/main.js`: herlaad de editor (Ctrl+F5) zodat de nieuwe scriptversie geladen wordt.
-- Als de nieuwe optie niet in de dropdown staat: voeg de `<option>` toe in `index.php` met exact dezelfde `value` als de key in `BANNER_VARIANTEN`.
+1. Vul je gegevens in via de twee tabbladen
+2. Bekijk de live preview rechts
+3. (Optioneel) Voeg een promotiebanner toe via "Toon banner"
+4. Klik **Kopieren** om de HTML naar je klembord te kopiëren
+5. Plak in je email client (Outlook, Gmail, Thunderbird, etc.)
 
-### Voorbeeld in één overzicht
+**Of:**
+- Klik **Downloaden** om het bestand te bewaren
 
-1. In `assets/js/main.js`:
+---
+
+## 🎨 Banners aanpassen
+
+### Methode A — Een banner toevoegen in `assets/js/main.js`
+
+1. Open `assets/js/main.js`
+2. Zoek de constante `BANNER_VARIANTEN` (omstreeks regel 1)
+3. Voeg een nieuwe banner toe:
 
 ```js
 const BANNER_VARIANTEN = {
-	techniekToekomst: { image: '...', href: '...', alt: '...' },
-	meesterChallenge: { image: '...', href: '...', alt: '...' },
-	mijnNieuweBanner: { image: 'https://example.com/mijn-banner.jpg', href: 'https://voorbeeld.nl', alt: 'Mijn nieuwe banner' }
+  techniekToekomst: {
+    image: 'https://www.technolableiden.nl/wp-content/uploads/2026/05/e-mail-handtekening-intern-1.png',
+    link: 'https://www.technolableiden.nl/zijinstromer-techniek-en-toekomst/',
+    alt: 'Techniek & Toekomst banner'
+  },
+  meesterChallenge: {
+    image: 'https://www.technolableiden.nl/wp-content/uploads/2026/02/meesterchallenge-banner-scaled.png',
+    link: 'https://www.technolableiden.nl/zijinstromers/meesterchallenge-2/',
+    alt: 'Meester Challenge banner'
+  },
+  // ✨ Voeg je nieuwe banner hier toe:
+  mijnNieuweBanner: {
+    image: 'https://example.com/mijn-banner.jpg',
+    link: 'https://voorbeeld.nl',
+    alt: 'Mijn nieuwe banner'
+  }
 };
 ```
 
-2. In `index.php` (dropdown):
+4. Sla `main.js` op
+5. (Optioneel) Voeg een optie toe in `index.php` in de `<select id="bannerType">`:
 
 ```html
 <option value="mijnNieuweBanner">Mijn nieuwe banner</option>
 ```
 
-3. Herlaad pagina en selecteer de banner in de editor.
+6. Herlaad de pagina (Ctrl+F5) en selecteer je banner in de dropdown
+
+### ⚠️ Belangrijk bij banners
+- Zorg dat alle afbeelding-URLs **publiek bereikbaar** zijn (https, geen login)
+- Controleer URLs in je browser op CORS- of laad-problemen
+- Beide `link` en `image` moeten valide URLs zijn
+- Na `main.js` wijzigen: **hard refresh** (Ctrl+F5 of Cmd+Shift+R)
 
 ---
+
+## 🛠️ Technische details
+
+### HTML (index.php)
+- HTML5 semantische markup
+- Responsive flexbox layout
+- Twee-koloms design (formulier links, preview rechts)
+- Tabblad navigatie met buttons
+
+### CSS (assets/css/style.css)
+- CSS variabelen voor kleuren (paars, groen, wit)
+- Mobile-responsive grid & flexbox
+- Technolab Leiden brand colors
+- Custom form styling
+
+### JavaScript (assets/js/main.js)
+- Real-time form validation (telefoon, email)
+- Werkdagen logica
+- Banner selectie & preview
+- HTML-veiligheid (XSS preventie)
+- Copy to clipboard
+- Download bestand
+- Import/export JSON
+
+### Template (assets/js/template.js)
+- Email-client compatible HTML
+- Outlook-compatible tabel layout
+- Inline CSS styling
+- Responsive afbeeldingen
+
+---
+
+## 📝 Veelgestelde vragen
+
+**V: Mijn afbeelding laadt niet in de preview**
+> Zorg dat de URL (1) toegankelijk is, (2) HTTPS gebruikt, en (3) geen login/intra vereist.
+
+**V: Wat gebeurt er als ik de HTML handtekening in Outlook plak?**
+> Het zou net zo moeten uitzien als in de preview. Outlook ondersteunt inline CSS en tabel-gebaseerde layouts.
+
+**V: Kan ik een eigen template gebruiken?**
+> Ja! Pas `assets/js/template.js` aan met je eigen HTML/CSS. Zorg wel dat je de placeholder variabelen (bijv. `(Naam)`) behoudt.
+
+**V: Hoe sla ik mijn instellingen op?**
+> Klik **Downloaden** om een JSON-bestand te bewaren. Laad het later in met **Importeren**.
+
+**V: Werkt dit offline?**
+> Gedeeltelijk — de editor werkt offline, maar banner-afbeeldingen en externe iconen (icons8.com) moeten online geladen worden.
+
+---
+
+## 📄 Licentie & Credits
+
+Gemaakt voor **Technolab Leiden**  
+Pictogrammen via [icons8.com](https://icons8.com)
+
+---
+
+## 🔗 Meer informatie
+
+Voor gedetailleerde gebruikshandleiding: [Gebruiksaanwijzing (SharePoint)](https://technolableiden.sharepoint.com/:w:/s/ToekomstTaal9/IQBGHwU9PmDOSa9nR4-sUBVtAaPHfido96yN6DCq6FflnBE?e=8pP5mp)
+
+
